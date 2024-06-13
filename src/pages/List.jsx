@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { useNavigate } from "react-router-dom";
 
 //custom hook
 import { useFirebase } from "../context/firebase";
 
+
 const ListingPage = () => {
   const firebase = useFirebase();
+  const navigate = useNavigate()
 
   const [name, setName] = useState("");
   const [isbnNumber, setIsbnNumber] = useState("");
@@ -20,6 +23,10 @@ const ListingPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await firebase.handleCreateNewListing(name, isbnNumber, price, coverPic);
+    
+    navigate("/")
+    
+    
   };
 
   return (
