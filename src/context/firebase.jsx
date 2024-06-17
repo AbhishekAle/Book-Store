@@ -8,7 +8,16 @@ import {
   signInWithPopup,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs, getDoc, doc} from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+  query,
+  where,
+} from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const FirebaseContext = createContext(null);
@@ -24,7 +33,6 @@ const firebaseConfig = {
 
 export const useFirebase = () => useContext(FirebaseContext);
 
-//firebase instances
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
@@ -42,22 +50,15 @@ export const FirebaseProvider = (props) => {
     });
   }, []);
 
-  //Firebase Authentication
   const signupUserWithEmailAndPassword = (email, password) =>
     createUserWithEmailAndPassword(firebaseAuth, email, password);
 
-  const singinUserWithEmailAndPass = (email, password) => {
+  const singinUserWithEmailAndPass = (email, password) =>
     signInWithEmailAndPassword(firebaseAuth, email, password);
-  };
 
   const signinWithGoogle = () => signInWithPopup(firebaseAuth, googleProvider);
 
-  //Firebase CRUD
   const handleCreateNewListing = async (name, isbn, price, cover) => {
-    if (!user) {
-      console.error("User is not authenticated");
-      return;
-    }
     const imageRef = ref(storage, `uploads/images/${Date.now()}-${cover.name}`);
     const uploadResult = await uploadBytes(imageRef, cover);
     return await addDoc(collection(firestore, "books"), {
@@ -75,7 +76,7 @@ export const FirebaseProvider = (props) => {
   const listAllBooks = () => {
     return getDocs(collection(firestore, "books"));
   };
-  
+
   const getBookById = async (id) => {
     const docRef = doc(firestore, "books", id);
     const result = await getDoc(docRef);
@@ -117,9 +118,9 @@ export const FirebaseProvider = (props) => {
   return (
     <FirebaseContext.Provider
       value={{
+        signinWithGoogle,
         signupUserWithEmailAndPassword,
         singinUserWithEmailAndPass,
-        signinWithGoogle,
         handleCreateNewListing,
         listAllBooks,
         getImageURL,
@@ -127,7 +128,8 @@ export const FirebaseProvider = (props) => {
         placeOrder,
         fetchMyBooks,
         getOrders,
-        isLoggedIn
+        isLoggedIn,
+        user,
       }}
     >
       {props.children}

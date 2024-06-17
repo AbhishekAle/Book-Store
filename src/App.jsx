@@ -11,6 +11,8 @@ import MyNavbar from "./components/Navbar";
 import ListingPage from "./pages/List";
 import HomePage from "./pages/Home";
 import BookDetailPage from "./pages/Detail";
+import OrdersPage from "./pages/ViewOrder";
+import ViewOrderDetails from "./pages/ViewOrderDetail";
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/book/list" element={<ListingPage />} />
         <Route path="/book/view/:bookId" element={<BookDetailPage />} />
+        <Route path="/book/orders" element={<OrdersPage />} />
+        <Route path="/books/orders/:bookId" element={<ViewOrderDetails />} />
       </Routes>
     </div>
   );
