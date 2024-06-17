@@ -10,6 +10,7 @@ import LoginPage from "./pages/Login";
 import MyNavbar from "./components/Navbar";
 import ListingPage from "./pages/List";
 import HomePage from "./pages/Home";
+import BookDetailPage from "./pages/Detail";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/book/list" element={<ListingPage />} />
+        <Route path="/book/view/:bookId" element={<BookDetailPage />} />
       </Routes>
     </div>
   );
